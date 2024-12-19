@@ -27,17 +27,26 @@
 
 
     // Skills
-    $('.skill').waypoint(function () {
-        $('.progress .progress-bar').each(function () {
-            // Ensure `aria-valuenow` is correctly read as a percentage number
-            let value = parseFloat($(this).attr("aria-valuenow"));
-            if (!isNaN(value) && value >= 0 && value <= 100) { // Validate percentage range
-                $(this).css("width", value + '%');
-            } else {
-                console.error("Invalid aria-valuenow for progress-bar:", value);
-            }
-        });
-    }, { offset: '80%' });
+    $(document).ready(function () {
+        $('.skill').waypoint(function () {
+            $('.progress .progress-bar').each(function () {
+                // Get the percentage value from aria-valuenow
+                const percentage = parseInt($(this).attr('aria-valuenow'), 10);
+
+                // Check if percentage is valid
+                if (!isNaN(percentage) && percentage >= 0 && percentage <= 100) {
+                    // Set the width dynamically
+                    $(this).css('width', percentage + '%');
+
+                    // Update the displayed percentage
+                    $(this).closest('.skill').find('.percent-value').text(percentage);
+                } else {
+                    console.error('Invalid percentage:', percentage);
+                }
+            });
+        }, { offset: '80%' });
+    });
+
 
 
 
